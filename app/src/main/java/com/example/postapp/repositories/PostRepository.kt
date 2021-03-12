@@ -34,6 +34,8 @@ class PostRepository @Inject constructor(
         }
     }
 
+    fun observePostByID(postID: String) = postDao.observePostById(postID)
+
     suspend fun getPostById(postID: String) = postDao.getPostById(postID)
 
     fun getAllPosts(): Flow<Resource<List<Post>>> {
