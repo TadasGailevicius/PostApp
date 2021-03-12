@@ -20,6 +20,7 @@ class PostViewModel @Inject constructor(
     }.switchMap {
         MutableLiveData(Event(it))
     }
+    
 
     val allNotes: LiveData<Event<Resource<List<Post>>>> = _allPosts
 }
