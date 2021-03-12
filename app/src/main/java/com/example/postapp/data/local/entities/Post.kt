@@ -2,6 +2,7 @@ package com.example.postapp.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
 import java.util.*
 
 @Entity(tableName = "posts")
@@ -10,6 +11,8 @@ data class Post (
         @PrimaryKey(autoGenerate = false)
         val id: String = UUID.randomUUID().toString(),
         val title: String,
-        val body: String
+        val body: String,
+        @Expose(deserialize = false, serialize = false)
+        var isSynced: Boolean = false,
 
 )
