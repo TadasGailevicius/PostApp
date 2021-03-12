@@ -8,14 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.postapp.R
 import com.example.postapp.adapters.PostAdapter
 import com.example.postapp.other.Status
 import com.example.postapp.ui.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_posts.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PostsFragment : BaseFragment(R.layout.fragment_posts) {
 
     private val viewModel: PostViewModel by viewModels()
@@ -34,6 +37,12 @@ class PostsFragment : BaseFragment(R.layout.fragment_posts) {
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
         setupRecyclerView()
         subscribeToObservers()
+
+        postAdapter.setOnItemClickListener {
+            findNavController().navigate(
+                    PostsFragmentDirections.actionPostsFragmentToPostDetailFragment(it.id)
+            )
+        }
 
     }
 
