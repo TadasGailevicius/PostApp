@@ -1,5 +1,6 @@
 package com.example.postapp.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -18,4 +19,7 @@ interface PostDao {
 
     @Query("SELECT * FROM posts ORDER BY id DESC")
     fun getAllPosts(): Flow<List<Post>>
+
+    @Query("SELECT * FROM posts WHERE id = :postID")
+    fun observePostById(postID: String): LiveData<Post>
 }
