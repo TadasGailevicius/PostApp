@@ -1,11 +1,15 @@
 package com.example.postapp.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.postapp.data.local.PostsDatabase
 import com.example.postapp.data.remote.PostApi
 import com.example.postapp.other.Constants.BASE_URL
 import com.example.postapp.other.Constants.DATABASE_NAME
+import com.example.postapp.other.Constants.ENCRYPTED_SHARED_PREF_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,5 +47,20 @@ object AppModule {
                 .create(PostApi::class.java)
     }
 
-
+    @Singleton
+    @Provides
+    fun provideEncryptedSharedPreferences(
+            @ApplicationContext context: Context
+    ): SharedPreferences {
+        val masterKey = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+        return EncryptedSharedPreferences.create(
+                context,
+                ENCRYPTED_SHARED_PREF_NAME,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
 }
