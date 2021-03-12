@@ -16,7 +16,6 @@ class PostRepository @Inject constructor(
     private val postApi: PostApi,
     private val context: Application
 ) {
-
     suspend fun insertPosts(posts: List<Post>) {
         posts.forEach { insertPost(it) }
     }
@@ -28,10 +27,17 @@ class PostRepository @Inject constructor(
             null
         }
 
-        suspend fun getPostById(postID: String) = postDao.getPostById(postID)
+        if (response != null && response.isSuccessful) {
+            postDao.insertPost(post.apply { isSynced = true })
+        } else {
+            postDao.insertPost(post)
+        }
+    }
 
-        fun getAllPosts(): Flow<Resource<List<Post>>> {
-            return networkBoundResource(
+    suspend fun getPostById(postID: String) = postDao.getPostById(postID)
+
+    fun getAllPosts(): Flow<Resource<List<Post>>> {
+        return networkBoundResource(
                 query = {
                     postDao.getAllPosts()
                 },
@@ -48,9 +54,8 @@ class PostRepository @Inject constructor(
                 shouldFetch = {
                     checkForInternetConnection(context)
                 }
-            )
-        }
-
-
+        )
     }
+
+
 }
