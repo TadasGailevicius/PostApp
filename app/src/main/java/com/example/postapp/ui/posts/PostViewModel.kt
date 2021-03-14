@@ -22,5 +22,5 @@ class PostViewModel @Inject constructor(
     }
     
 
-    val allNotes: LiveData<Event<Resource<List<Post>>>> = _allPosts
+    val allPosts: LiveData<Event<Resource<List<Post>>>> = _allPosts
 }
