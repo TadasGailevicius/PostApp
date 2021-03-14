@@ -20,7 +20,8 @@ class PostViewModel @Inject constructor(
     }.switchMap {
         MutableLiveData(Event(it))
     }
-    
 
     val allPosts: LiveData<Event<Resource<List<Post>>>> = _allPosts
+
+    fun syncAllPosts() = _forceUpdate.postValue(true)
 }
