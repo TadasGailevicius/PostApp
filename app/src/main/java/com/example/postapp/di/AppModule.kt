@@ -32,11 +32,11 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideNotesDao(db: PostsDatabase) = db.postDao()
+    fun providePostsDao(db: PostsDatabase) = db.postDao()
 
     @Singleton
     @Provides
-    fun provideNoteApi() : PostApi {
+    fun providePostApi() : PostApi {
         val client = OkHttpClient.Builder()
                 .build()
         return Retrofit.Builder()
