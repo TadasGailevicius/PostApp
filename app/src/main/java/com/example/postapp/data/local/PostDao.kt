@@ -17,9 +17,10 @@ interface PostDao {
     @Query("SELECT * FROM posts WHERE id = :postID")
     suspend fun getPostById(postID: String): Post?
 
-    @Query("SELECT * FROM posts ORDER BY id DESC")
+    @Query("SELECT * FROM posts")
     fun getAllPosts(): Flow<List<Post>>
 
     @Query("SELECT * FROM posts WHERE id = :postID")
     fun observePostById(postID: String): LiveData<Post>
+
 }
