@@ -42,10 +42,14 @@ class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
         )
     }
 
+    override fun getItemCount(): Int {
+        return posts.size
+    }
+
+
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
         holder.itemView.apply {
-
             tvTitle.text = post.title
 
             setOnItemClickListener {
@@ -54,10 +58,6 @@ class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
                 }
             }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return posts.size
     }
 
     fun setOnItemClickListener(onItemClick: (Post) -> Unit){
