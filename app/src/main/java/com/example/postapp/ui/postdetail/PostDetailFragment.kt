@@ -29,6 +29,7 @@ class PostDetailFragment : BaseFragment(R.layout.fragment_post_detail)  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeToObservers()
+
     }
 
     private fun subscribeToObservers() {
