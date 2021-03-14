@@ -28,10 +28,6 @@ class PostsFragment : BaseFragment(R.layout.fragment_posts) {
 
     private lateinit var postAdapter: PostAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
@@ -47,7 +43,7 @@ class PostsFragment : BaseFragment(R.layout.fragment_posts) {
     }
 
     private fun subscribeToObservers() {
-        viewModel.allNotes.observe(viewLifecycleOwner, Observer {
+        viewModel.allPosts.observe(viewLifecycleOwner, Observer {
             it?.let { event ->
                 val result = event.peekContent()
                 when(result.status){
