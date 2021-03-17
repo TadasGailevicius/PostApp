@@ -40,7 +40,7 @@ class PostsFragment : BaseFragment(R.layout.fragment_posts) {
         subscribeToObservers()
         postAdapter.setOnItemClickListener {
             findNavController().navigate(
-                    PostsFragmentDirections.actionPostsFragmentToPostDetailFragment(it.id)
+                    PostsFragmentDirections.actionPostsFragmentToPostDetailFragment(it.id,it.userId)
             )
         }
     }
