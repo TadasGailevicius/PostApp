@@ -56,7 +56,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideJsonplacholderPostsApi() : JsonplaceholderPostsApi {
+    fun provideJPPostApi() : JsonplaceholderPostsApi {
         return Retrofit.Builder()
             .baseUrl(JSONPLACEHOLDER)
             .addConverterFactory(GsonConverterFactory.create())
