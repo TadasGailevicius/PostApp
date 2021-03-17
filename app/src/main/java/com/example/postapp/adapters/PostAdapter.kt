@@ -24,8 +24,6 @@ class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
         }
     }
 
-    private var onItemClickListener: ((Post) -> Unit)? = null
-
     private val differ = AsyncListDiffer(this, diffCallback)
 
     var posts: List<Post>
@@ -49,10 +47,11 @@ class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
-        holder.itemView.apply {
-            tvTitle.text = post.title
+        holder.apply {
+            itemView.tvTitle.text = post.title
+            itemView.tvSynced.text = post.isSynced.toString()
 
-            setOnItemClickListener {
+            itemView.setOnClickListener {
                 onItemClickListener?.let { click ->
                     click(post)
                 }
@@ -60,7 +59,9 @@ class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
         }
     }
 
+    private var onItemClickListener: ((Post) -> Unit)? = null
+
     fun setOnItemClickListener(onItemClick: (Post) -> Unit){
-        this.onItemClickListener = onItemClick
+        onItemClickListener = onItemClick
     }
 }
