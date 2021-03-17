@@ -10,5 +10,6 @@ class PostDetailViewModel @Inject constructor(
         private val repository: PostRepository
 ) : ViewModel() {
 
-    fun observePostByID(postID: String) = repository.observePostByID(postID)
+    fun observePostByID(postID: Int) = repository.observePostByID(postID)
+
 }
