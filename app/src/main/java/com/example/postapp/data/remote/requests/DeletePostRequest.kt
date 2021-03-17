@@ -1,5 +1,5 @@
 package com.example.postapp.data.remote.requests
 
 data class DeletePostRequest(
-        val id: String
+        val id: Int
 )
