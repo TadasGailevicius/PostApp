@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "locally_deleted_post_ids")
 data class LocallyDeletedPostID(
         @PrimaryKey(autoGenerate = false)
-        val deletedPostID: String
+        val deletedPostID: Int
 )
