@@ -9,7 +9,7 @@ object Constants {
     const val BASE_URL = "http://192.168.8.154:8010"
 
     const val JSONPLACEHOLDER = "https://jsonplaceholder.typicode.com"
-    const val USERS_IMAGES = "https://source.unsplash.com/collection/542909/?sig={user_id}"
+    const val USERS_IMAGES = "https://source.unsplash.com/collection/542909/?sig="
 
 
 

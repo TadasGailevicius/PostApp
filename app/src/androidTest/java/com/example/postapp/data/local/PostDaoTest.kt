@@ -38,18 +38,18 @@ class PostDaoTest {
 
     @Test
     fun insertPost() = runBlockingTest {
-        val post = Post("1","1","a","a")
+        val post = Post(1,1,"a","a")
         dao.insertPost(post)
 
-        val observedPost = dao.observePostById("1").value
+        val observedPost = dao.observePostById(1).value
 
         assertThat(observedPost).equals(post)
     }
 
     @Test
     fun getAllPosts() = runBlockingTest {
-        val post1 = Post("1","1","a","a")
-        val post2 = Post("2","2","bb","bb")
+        val post1 = Post(1,1,"a","a")
+        val post2 = Post(2,2,"bb","bb")
         dao.insertPost(post1)
         dao.insertPost(post2)
 

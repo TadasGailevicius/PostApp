@@ -9,10 +9,14 @@
         android:label="PostDetailFragment" >
         <argument
             android:name="id"
-            app:argType="string" />
+            app:argType="integer" />
         <action
             android:id="@+id/action_postDetailFragment_to_postsFragment"
-            app:destination="@id/postsFragment" />
+            app:destination="@id/postsFragment"
+            />
+        <argument
+            android:name="userId"
+            app:argType="integer" />
     </fragment>
 
     <fragment
@@ -21,6 +25,11 @@
         android:label="PostsFragment" >
         <action
             android:id="@+id/action_postsFragment_to_postDetailFragment"
-            app:destination="@id/postDetailFragment" />
+            app:destination="@id/postDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
     </fragment>
 </navigation>

@@ -7,6 +7,8 @@ import com.example.postapp.data.local.entities.Post
 import com.example.postapp.data.remote.JsonplaceholderPostsApi
 import com.example.postapp.data.remote.JsonplaceholderUsersApi
 import com.example.postapp.data.remote.PostApi
+import com.example.postapp.data.remote.entities.JsonplaceholderPost
+import com.example.postapp.data.remote.entities.JsonplaceholderUser
 import com.example.postapp.data.remote.requests.DeletePostRequest
 import com.example.postapp.other.Resource
 import com.example.postapp.other.checkForInternetConnection
@@ -24,11 +26,9 @@ class PostRepository @Inject constructor(
     private val jsonplaceholderUsersApi: JsonplaceholderUsersApi,
     private val context: Application
 ) {
-    suspend fun getJPPosts() =
-        jsonplaceholderPostsApi.getJPPosts()
 
-    suspend fun getJPUsers() =
-        jsonplaceholderUsersApi.getJPUsers()
+    suspend fun getJPUser(userID: Int) =
+        jsonplaceholderUsersApi.getJPUserById(userID)
 
     suspend fun insertPost(post: Post) {
         val response = try {
@@ -48,7 +48,18 @@ class PostRepository @Inject constructor(
         posts.forEach { insertPost(it) }
     }
 
-    suspend fun deletePost(postID: String) {
+    suspend fun insertJPPosts(posts: List<Post>, jpposts: List<JsonplaceholderPost>) {
+        jpposts.forEach { post ->
+            var userId = post.userId
+            var id = post.id
+            var title = post.title
+            var body = post.body
+
+            posts.forEach { insertPost(Post(userId,id,title,body)) }
+        }
+    }
+
+    suspend fun deletePost(postID: Int) {
         val response = try {
             postApi.deletePost(DeletePostRequest(postID))
         } catch (e: Exception) {
@@ -62,15 +73,14 @@ class PostRepository @Inject constructor(
         }
     }
 
-    fun observePostByID(postID: String) = postDao.observePostById(postID)
+    fun observePostByID(postID: Int) = postDao.observePostById(postID)
 
-    suspend fun deleteLocallyDeletedPostID(deletedPostID: String) {
+    suspend fun deleteLocallyDeletedPostID(deletedPostID: Int) {
         postDao.deleteLocallyDeletedPostID(deletedPostID)
     }
 
-    suspend fun getPostById(postID: String) = postDao.getPostById(postID)
-
     private var curPostsResponse: Response<List<Post>>? = null
+    private var curJPPostsResponse: Response<List<JsonplaceholderPost>>? = null
 
     suspend fun syncPosts() {
         val locallyDeletedPostIDs = postDao.getAllLocallyDeletedPostIDs()
@@ -80,10 +90,18 @@ class PostRepository @Inject constructor(
         unsyncedPosts.forEach { post -> insertPost(post) }
 
         curPostsResponse = postApi.getPosts()
-        curPostsResponse?.body()?.let { posts ->
+        curJPPostsResponse = jsonplaceholderPostsApi.getJPPosts()
+
+        curPostsResponse ?.body()?.let { posts ->
             postDao.deleteAllPosts()
             insertPosts(posts.onEach { post -> post.isSynced = true })
+
+            curJPPostsResponse ?.body()?.let { jpPosts ->
+                postDao.deleteAllPosts()
+                insertJPPosts(posts, jpPosts.onEach { post -> post.isSynced = true })
+            }
         }
+
     }
 
     fun getAllPosts(): Flow<Resource<List<Post>>> {
