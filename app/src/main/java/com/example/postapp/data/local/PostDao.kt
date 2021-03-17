@@ -16,7 +16,7 @@ interface PostDao {
     suspend fun insertPost(post: Post)
 
     @Query("DELETE FROM posts WHERE id = :postID")
-    suspend fun deletePostById(postID: String)
+    suspend fun deletePostById(postID: Int)
 
     @Query("DELETE FROM posts WHERE isSynced = 1")
     suspend fun deleteAllSyncedPosts()
@@ -25,10 +25,10 @@ interface PostDao {
     suspend fun deleteAllPosts()
 
     @Query("SELECT * FROM posts WHERE id = :postID")
-    fun observePostById(postID: String): LiveData<Post>
+    fun observePostById(postID: Int): LiveData<Post>
 
     @Query("SELECT * FROM posts WHERE id = :postID")
-    suspend fun getPostById(postID: String): Post?
+    suspend fun getPostById(postID: Int): Post?
 
     @Query("SELECT * FROM posts")
     fun getAllPosts(): Flow<List<Post>>
@@ -40,7 +40,7 @@ interface PostDao {
     suspend fun getAllLocallyDeletedPostIDs(): List<LocallyDeletedPostID>
 
     @Query("DELETE FROM locally_deleted_post_ids WHERE deletedPostID = :deletedPostID")
-    suspend fun deleteLocallyDeletedPostID(deletedPostID: String)
+    suspend fun deleteLocallyDeletedPostID(deletedPostID: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLocallyDeletedPostID(locallyDeletedPostID: LocallyDeletedPostID)
