@@ -7,9 +7,9 @@ import java.util.*
 
 @Entity(tableName = "posts")
 data class Post (
-        val userId: String,
-        @PrimaryKey(autoGenerate = false)
-        val id: String = UUID.randomUUID().toString(),
+        val userId: Int,
+        @PrimaryKey(autoGenerate = true)
+        val id: Int,
         val title: String,
         val body: String,
         @Expose(deserialize = false, serialize = false)
